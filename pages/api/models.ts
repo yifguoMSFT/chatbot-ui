@@ -48,7 +48,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const json = await response.json();
 
-    const models: OpenAIModel[] = json.data
+    var models: OpenAIModel[] = json.data
       .map((model: any) => {
         const model_name = (OPENAI_API_TYPE === 'azure') ? model.model : model.id;
         for (const [key, value] of Object.entries(OpenAIModelID)) {
@@ -62,6 +62,7 @@ const handler = async (req: Request): Promise<Response> => {
       })
       .filter(Boolean);
 
+    models.push({id:'localSkServer', name:'Local Semantic Kernel Server', maxLength:1000, tokenLimit:1000});
     return new Response(JSON.stringify(models), { status: 200 });
   } catch (error) {
     console.error(error);

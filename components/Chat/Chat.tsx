@@ -100,7 +100,10 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           prompt: updatedConversation.prompt,
           temperature: updatedConversation.temperature
         };
-        const endpoint = getEndpoint(plugin);
+        var endpoint = getEndpoint(plugin);
+        if(selectedConversation.model.id == "localSkServer"){
+          endpoint = "https://localhost:7077/api/chat"
+        }
         let body;
         if (!plugin) {
           body = JSON.stringify(chatBody);
